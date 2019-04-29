@@ -13,5 +13,5 @@
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview3.gif) ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview4.gif)
 
 ### 灵感来自：
-![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview6.gif) 
-![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview5.gif)
+![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview6.jpg) 
+![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview5.jpg)
