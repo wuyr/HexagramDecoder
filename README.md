@@ -14,4 +14,5 @@
 
 ### 灵感来自：
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview6.jpg) 
+
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview5.jpg)
