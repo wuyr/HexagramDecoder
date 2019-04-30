@@ -16,9 +16,12 @@ import kotlinx.android.synthetic.main.act_main_view.*
  * @github https://github.com/wuyr/HexagramDecoder
  * @since 2019-04-28 下午6:30
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var mClipboardManager: ClipboardManager
+    private val mClipboardManager by lazy {
+        getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    }
+
     private val mTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
@@ -29,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             val content = s.toString()
             if (content.isEmpty()) {
-                clearPlainText(null)
-                clearCipherText(null)
+                setPlainTextWithoutWatcher("")
+                setCipherTextWithoutWatcher("")
                 return
             }
             if (isCipherTextEditing()) {
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_main_view)
-        mClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        setOnClickListener(clearPlain, copyPlain, pastePlain, clearCipher, copyCipher, pasteCipher)
         plainTextView.addTextChangedListener(mTextWatcher)
         cipherTextView.addTextChangedListener(mTextWatcher)
         type.setOnCheckedChangeListener { _, isChecked ->
@@ -70,39 +73,38 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getContentFromClipboard()?.let {
-            if (it.isCipherText()) {
-                pasteCipherText(it)
-                copyPlainText(null)
-            } else {
-                pastePlainText(it)
-                copyCipherText(null)
-            }
+        if (contentFromClipboard.isCipherText()) {
+            pasteCipherText(contentFromClipboard)
+            writeContentToClipboard(plainTextView.text.toString(), false)
+        } else {
+            pastePlainText(contentFromClipboard)
+            writeContentToClipboard(cipherTextView.text.toString(), true)
         }
     }
 
-    fun clearPlainText(view: View?) {
-        setPlainTextWithoutWatcher("")
-    }
-
-    fun copyPlainText(view: View?) {
-        writeContentToClipboard(plainTextView.text.toString(), false)
-    }
-
-    fun pastePlainText(view: View) {
-        getContentFromClipboard()?.let { pastePlainText(it) }
-    }
-
-    fun clearCipherText(view: View?) {
-        setCipherTextWithoutWatcher("")
-    }
-
-    fun copyCipherText(view: View?) {
-        writeContentToClipboard(cipherTextView.text.toString(), true)
-    }
-
-    fun pasteCipherText(view: View) {
-        getContentFromClipboard()?.let { pasteCipherText(it) }
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.clearPlain -> {
+                setPlainTextWithoutWatcher("")
+            }
+            R.id.copyPlain -> {
+                writeContentToClipboard(plainTextView.text.toString(), false)
+            }
+            R.id.pastePlain -> {
+                pastePlainText(contentFromClipboard)
+            }
+            R.id.clearCipher -> {
+                setCipherTextWithoutWatcher("")
+            }
+            R.id.copyCipher -> {
+                writeContentToClipboard(cipherTextView.text.toString(), true)
+            }
+            R.id.pasteCipher -> {
+                pasteCipherText(contentFromClipboard)
+            }
+            else -> {
+            }
+        }
     }
 
     private fun convertToSymbol() {
@@ -119,13 +121,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun pasteCipherText(content: String) {
+    private fun pasteCipherText(content: String?) {
+        content ?: return
         cipherTextView.requestFocus()
         cipherTextView.setText(content)
         cipherTextView.setSelection(content.length)
     }
 
-    private fun pastePlainText(content: String) {
+    private fun pastePlainText(content: String?) {
+        content ?: return
         plainTextView.requestFocus()
         plainTextView.setText(content)
         plainTextView.setSelection(content.length)
@@ -143,14 +147,16 @@ class MainActivity : AppCompatActivity() {
         plainTextView.addTextChangedListener(mTextWatcher)
     }
 
-    private fun getContentFromClipboard(): String? {
-        mClipboardManager.primaryClip?.let {
-            if (it.itemCount > 0) {
-                return it.getItemAt(0)?.text?.toString()
+    // 改为属性
+    private val contentFromClipboard: String?
+        get() {
+            mClipboardManager.primaryClip?.let {
+                if (it.itemCount > 0) {
+                    return it.getItemAt(0)?.text?.toString()
+                }
             }
+            return null
         }
-        return null
-    }
 
     private fun writeContentToClipboard(content: String, isCipherText: Boolean) {
         mClipboardManager.primaryClip = ClipData.newPlainText("hexagram", content)

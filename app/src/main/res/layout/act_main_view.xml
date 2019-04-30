@@ -20,21 +20,21 @@
         android:layout_margin="8dp">
 
         <Button
+            android:id="@+id/clearPlain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="clearPlainText"
             android:text="清空明文" />
 
         <Button
+            android:id="@+id/copyPlain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="copyPlainText"
             android:text="复制明文" />
 
         <Button
+            android:id="@+id/pastePlain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="pastePlainText"
             android:text="粘贴明文" />
     </LinearLayout>
 
@@ -54,21 +54,21 @@
         android:layout_margin="8dp">
 
         <Button
+            android:id="@+id/clearCipher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="clearCipherText"
             android:text="清空密文" />
 
         <Button
+            android:id="@+id/copyCipher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="copyCipherText"
             android:text="复制密文" />
 
         <Button
+            android:id="@+id/pasteCipher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="pasteCipherText"
             android:text="粘贴密文" />
     </LinearLayout>
 
