@@ -1,6 +1,7 @@
 package com.wuyr.hexagram
 
 import android.util.Base64
+import android.view.View
 
 /**
  * @author wuyr
@@ -10,7 +11,9 @@ import android.util.Base64
 
 fun String.autoDecodeOrEncode() = if (isCipherText()) decodeHexagram() else encodeHexagram()
 
-fun String.isCipherText(): Boolean {
+fun String?.isCipherText(): Boolean {
+    // 改为String可空，外面就不需要在空判断
+    this ?: return false
     var decodeHitCount = 0
     var temp: String
     var start = 0
@@ -63,6 +66,15 @@ fun String.decodeHexagram(): String {
         )
     } catch (t: Throwable) {
         base64.toString()
+    }
+}
+
+/**
+ * 多控件点击事件，需要实现OnClickListener接口
+ */
+fun View.OnClickListener.setOnClickListener(vararg ids: View?) {
+    ids.filterNotNull().forEach {
+        it.setOnClickListener(this)
     }
 }
 
