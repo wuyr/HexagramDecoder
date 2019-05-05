@@ -17,7 +17,10 @@
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview1.gif) ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview2.gif)
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview3.gif) ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview4.gif)
 
+<br/>
+
 ## 思路来自：
+
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview6.jpg) 
 
 ![preview](https://github.com/wuyr/HexagramDecoder/raw/master/previews/preview5.jpg)
