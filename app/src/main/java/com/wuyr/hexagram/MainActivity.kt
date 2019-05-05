@@ -18,10 +18,7 @@ import kotlinx.android.synthetic.main.act_main_view.*
  */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private val mClipboardManager by lazy {
-        getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    }
-
+    private lateinit var mClipboardManager: ClipboardManager
     private val mTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
@@ -59,7 +56,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_main_view)
+        mClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         setOnClickListener(clearPlain, copyPlain, pastePlain, clearCipher, copyCipher, pasteCipher)
+
         plainTextView.addTextChangedListener(mTextWatcher)
         cipherTextView.addTextChangedListener(mTextWatcher)
         type.setOnCheckedChangeListener { _, isChecked ->
@@ -147,7 +146,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         plainTextView.addTextChangedListener(mTextWatcher)
     }
 
-    // 改为属性
+    private fun setOnClickListener(vararg ids: View?) {
+        ids.filterNotNull().forEach {
+            it.setOnClickListener(this)
+        }
+    }
+
     private val contentFromClipboard: String?
         get() {
             mClipboardManager.primaryClip?.let {
